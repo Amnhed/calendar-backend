@@ -1,4 +1,9 @@
 const express = require('express');
+//Incluyo mis variables globales
+require('dotenv').config();
+
+//Muestro todas las variables globales (procesos)
+console.log( process.env );
 
 //Crear el servidor de express, es una buena practica declararlo como const app
 const app = express();
@@ -16,6 +21,6 @@ app.use( express.static('public'));
 // });
 
 //Incio el servidor y el puerto donde escuchara peticones
-app.listen( 4000, () => {
-    console.log(`Servidor corriendo en el puerto ${ 4000 }`);
+app.listen( process.env.PORT, () => {
+    console.log(`Servidor corriendo en el puerto ${ process.env.PORT }`);
 });
