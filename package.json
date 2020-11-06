@@ -17,5 +17,8 @@
   "bugs": {
     "url": "https://github.com/Amnhed/calendar-backend/issues"
   },
-  "homepage": "https://github.com/Amnhed/calendar-backend#readme"
+  "homepage": "https://github.com/Amnhed/calendar-backend#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
 }
