@@ -12,6 +12,9 @@ const app = express();
 //App use es un middleware
 app.use( express.static('public'));
 
+//Lectura y parseo del body
+app.use( express.json );
+
 
 //Rutas
 //Todo lo que el archivo auth exporte, utilizara la ruta /api/auth
