@@ -5,14 +5,15 @@
 const { Router } = require('express');
 const router = Router();
 
+const { crearUsuario, loginUsuario, revalidarToken } = require('../controllers/auth');
+
 //Rutas
-// Asi la llamo localhost:4000/api/auth/
-router.get('/', (req, res) => {
-    console.log('Ruta /');
-    res.json({
-        ok:true
-    })
-});
+
+router.post('/new', crearUsuario);
+
+router.post('/', loginUsuario);
+
+router.get('/renew', revalidarToken);
 
 //Realizo la exportacion
 module.exports = router;
