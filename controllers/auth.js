@@ -6,9 +6,14 @@ const { response } = require('express');
 
 
 const crearUsuario = (req, res = response) => {
-    res.json({
+    // console.log( req );
+    const {name, email, password} = req.body;
+    res.status(201).json({
         ok:true,
-        msg: 'registro usuario'
+        msg: 'registro usuario',
+        name,
+        email,
+        password
     })
 }
 
