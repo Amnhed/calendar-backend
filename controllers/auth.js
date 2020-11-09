@@ -3,11 +3,20 @@
     hago una desestructuracion de express pra obtener el reponse 
 */
 const { response } = require('express');
+const { validationResult } = require('express-validator');
 
 
 const crearUsuario = (req, res = response) => {
     // console.log( req );
     const {name, email, password} = req.body;
+    const errors = validationResult( req );
+    //console.log(errors);
+        if ( !errors.isEmpty() ){
+            return res.status(400).json({
+                ok:false,
+                errors: errors.mapped()
+            });
+        }
     res.status(201).json({
         ok:true,
         msg: 'registro usuario',
@@ -18,9 +27,17 @@ const crearUsuario = (req, res = response) => {
 }
 
 const loginUsuario = (req, res = response) => {
-    res.json({
+    const errors = validationResult( req );
+    //console.log(errors);
+        if ( !errors.isEmpty() ){
+            return res.status(400).json({
+                ok:false,
+                errors: errors.mapped()
+            });
+        }
+    res.status(200).json({
         ok:true,
-        msg: 'login'
+        msg: 'Login correcto'
     })
 }
 
