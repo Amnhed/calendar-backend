@@ -2,11 +2,16 @@ const express = require('express');
 //Incluyo mis variables globales
 require('dotenv').config();
 
+const { dbConection } = require('./database/config');
+
 //Muestro todas las variables globales (procesos)
 // console.log( process.env );
 
 //Crear el servidor de express, es una buena practica declararlo como const app
 const app = express();
+
+//base de datos
+dbConection();
 
 // Directorio publico
 //App use es un middleware
