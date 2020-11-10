@@ -3,19 +3,28 @@
     hago una desestructuracion de express pra obtener el reponse 
 */
 const { response } = require('express');
+const Usuario = require('../models/Usuario');
 
 
-const crearUsuario = (req, res = response) => {
+const crearUsuario = async(req, res = response) => {
     // console.log( req );
-    const {name, email, password} = req.body;
+    // const {name, email, password} = req.body
+    try {
+        const usuario = new Usuario( req.body );
+        await usuario.save();
+        
+        res.status(201).json({
+            ok:true,
+            msg: 'registro'
+        })
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({
+            ok:true,
+            msg: ''
+        });
+    }
 
-    res.status(201).json({
-        ok:true,
-        msg: 'registro usuario',
-        name,
-        email,
-        password
-    })
 }
 
 const loginUsuario = (req, res = response) => {
