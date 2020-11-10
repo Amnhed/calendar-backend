@@ -3,12 +3,13 @@
     hago una desestructuracion de express pra obtener el reponse 
 */
 const { response } = require('express');
+const bcrypt = require('bcryptjs');
 const Usuario = require('../models/Usuario');
 
 
 const crearUsuario = async(req, res = response) => {
     // console.log( req );
-    const { email } = req.body
+    const { email, password } = req.body
     try {
         //Si encuentra el email del req.body regresa el registro(objeto), otra cosa regresa null
         let usuario = await Usuario.findOne({ email });
@@ -21,6 +22,10 @@ const crearUsuario = async(req, res = response) => {
         }
 
         usuario = new Usuario( req.body );
+        // Encriptar contraseña
+        const salt = bcrypt.genSaltSync();//default 10 rounds
+        usuario.password = bcrypt.hashSync( password, salt );
+
         await usuario.save();
         
         res.status(201).json({
