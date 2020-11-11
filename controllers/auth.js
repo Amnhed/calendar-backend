@@ -43,7 +43,8 @@ const crearUsuario = async(req, res = response) => {
 
 }
 
-const loginUsuario = (req, res = response) => {
+const loginUsuario = async(req, res = response) => {
+    const { email, password } = req.body; 
     //const errors = validationResult( req );
     //console.log(errors);
         // if ( !errors.isEmpty() ){
@@ -52,10 +53,44 @@ const loginUsuario = (req, res = response) => {
         //         errors: errors.mapped()
         //     });
         // }
-    res.status(200).json({
-        ok:true,
-        msg: 'Login correcto'
-    })
+    
+
+    try {
+        let usuario = await Usuario.findOne({ email });
+        //El usuario no existe, 
+        if( !usuario ){
+            return res.status(400).json({
+                ok:false,
+                msg: 'El usuario no existe con ese email'
+            });
+        }
+        
+        //compara la contraseña del request con la contraseña en la bd
+        const validPassword = bcrypt.compareSync( password, usuario.password );
+    
+        // SI el pasword del request es NO ES IGUAL al password de la bd
+        if ( !validPassword ){
+            return res.status(400).json({
+                ok:false,
+                msg: 'Password incorecto'
+            })
+        }
+
+        res.status(200).json({
+            ok:true,
+            uid: usuario.id,
+            name: usuario.name
+        })
+        
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            ok: false,
+            msg: 'Login incorrecto'
+        })
+        
+    }
+
 }
 
 const revalidarToken = (req, res = response) => {
