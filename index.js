@@ -1,6 +1,7 @@
 const express = require('express');
 //Incluyo mis variables globales
 require('dotenv').config();
+const cors = require('cors');
 
 const { dbConection } = require('./database/config');
 
@@ -12,6 +13,9 @@ const app = express();
 
 //base de datos
 dbConection();
+
+//CORS
+app.use(cors())
 
 // Directorio publico
 //App use es un middleware
