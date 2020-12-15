@@ -7,6 +7,8 @@ const { check } = require('express-validator');
 
 const { validarCampos } = require('../middlewares/validar-campos');
 const { crearUsuario, loginUsuario, revalidarToken } = require('../controllers/auth');
+const { validarJWT } = require('../middlewares/validar-jwt');
+
 
 
 const router = Router();
@@ -30,7 +32,8 @@ router.post('/',
     ],
     loginUsuario);
 
-router.get('/renew', revalidarToken);
+    // Si solo ocupo un middleware (validarJWT), lo mando como variable de lo contrario en un arreglo
+router.get('/renew', validarJWT, revalidarToken);
 
 //Realizo la exportacion
 module.exports = router;
