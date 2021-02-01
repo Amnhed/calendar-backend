@@ -28,6 +28,8 @@ app.use( express.json() );
 //Rutas
 //Todo lo que el archivo auth exporte, utilizara la ruta /api/auth
 app.use('/api/auth', require('./routes/auth'));
+//abrir ruta para eventos e importar las rutas de /routes
+app.use('/api/events', require('./routes/events'));
 
 //Incio el servidor y el puerto donde escuchara peticones
 app.listen( process.env.PORT, () => {
