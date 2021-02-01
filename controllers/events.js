@@ -26,36 +26,21 @@ const getEventos = async(req, res = response) => {
 const crearEvento = async(req, res = response) => {
     // console.log( req );
     //const { email, password } = req.body
-    try {
+
         res.status(201).json({
             ok:true,
             msg: 'Crear evento'
         })
-    } catch (error) {
-        console.log(error)
-        res.status(500).json({
-            ok:true,
-            msg: ''
-        });
-    }
-
 }
 
 const actualizarEvento = async(req, res = response) => {
     // console.log( req );
     //const { email, password } = req.body
-    try {
-        res.status(201).json({
-            ok:true,
-            msg: 'Actualizar evento'
-        })
-    } catch (error) {
-        console.log(error)
-        res.status(500).json({
-            ok:true,
-            msg: ''
-        });
-    }
+
+    res.status(201).json({
+        ok:true,
+        msg: 'Actualizar evento'
+    })
 }
 
 const eliminarEvento = async(req, res = response) => {
@@ -64,7 +49,7 @@ const eliminarEvento = async(req, res = response) => {
     try {
         res.status(201).json({
             ok:true,
-            msg: 'Actualizar evento'
+            msg: 'Eliminar evento'
         })
     } catch (error) {
         console.log(error)
