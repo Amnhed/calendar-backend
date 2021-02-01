@@ -10,17 +10,20 @@ const { getEventos, crearEvento, actualizarEvento, eliminarEvento } = require('.
 
 const router = Router();
 
+// Todas tienen que pasar por la validacion de  jwt
+router.use( validarJWT );
+
 //obtener eventos
-router.get('/',validarJWT, getEventos);
+router.get('/', getEventos);
 
 //Crear evento
-router.post('/',validarJWT, crearEvento);
+router.post('/', crearEvento);
 
 //Actualizar evento
-router.put('/:id',validarJWT, actualizarEvento);
+router.put('/:id', actualizarEvento);
 
 //Borrar evento
-router.delete('/:id',validarJWT, eliminarEvento);
+router.delete('/:id', eliminarEvento);
 
 //Realizo la exportacion
 module.exports = router;
