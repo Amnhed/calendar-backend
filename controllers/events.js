@@ -11,18 +11,19 @@ const Evento = require('../models/Evento');
 const getEventos = async(req, res = response) => {
     // console.log( req );
     //const { email, password } = req.body
-    const evento = new Evento( req.body );
+    const evento = await Evento.find()
+                                .populate('user','name');
+
     try {
-        const eventoGuardado = await evento.save();
         res.status(201).json({
             ok:true,
             msg: 'Obtener eventos',
-            evento: eventoGuardado
+            evento: evento
         })
     } catch (error) {
         console.log(error)
         res.status(500).json({
-            ok:false,
+            ok: false,
             msg: 'Hable con el administrador'
         });
     }
