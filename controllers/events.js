@@ -24,7 +24,7 @@ const getEventos = async(req, res = response) => {
 }
 
 const crearEvento = async(req, res = response) => {
-    // console.log( req );
+    //console.log( req.body);
     //const { email, password } = req.body
 
         res.status(201).json({
@@ -44,7 +44,7 @@ const actualizarEvento = async(req, res = response) => {
 }
 
 const eliminarEvento = async(req, res = response) => {
-    // console.log( req );
+    console.log( req.body);
     //const { email, password } = req.body
     try {
         res.status(201).json({
