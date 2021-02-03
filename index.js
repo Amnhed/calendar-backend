@@ -32,6 +32,7 @@ app.use('/api/auth', require('./routes/auth'));
 app.use('/api/events', require('./routes/events'));
 
 //Incio el servidor y el puerto donde escuchara peticones
+// Heroku si no existe la variable de entorno port utilizara la del enviorement
 app.listen( process.env.PORT, () => {
     console.log(`Servidor corriendo en el puerto ${ process.env.PORT }`);
 });
