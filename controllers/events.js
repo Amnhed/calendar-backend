@@ -44,7 +44,7 @@ const crearEvento = async(req, res = response) => {
         })
     } catch (error) {
         console.log(error)
-        res.status(500).json({
+        return res.status(500).json({
             ok:false,
             msg: 'Hable con el administrador'
         });
@@ -61,7 +61,7 @@ const actualizarEvento = async(req, res = response) => {
 
         if ( !evento ) {
             //no encontro el id
-            res.status(404).json({
+            return res.status(404).json({
                 ok:true,
                 msg: 'El evento no existe por ese id'
             })
@@ -100,9 +100,37 @@ const actualizarEvento = async(req, res = response) => {
 }
 
 const eliminarEvento = async(req, res = response) => {
-    console.log( req.body);
-    //const { email, password } = req.body
+    const eventoId = req.params.id;
+    const uid = req.uid;
+
     try {
+        const evento = await Evento.findById( eventoId );
+
+        if ( !evento ) {
+            //no encontro el id
+            return res.status(404).json({
+                ok:true,
+                msg: 'El evento no existe por ese id'
+            })
+        }
+
+        if ( evento.user.toString() !== uid ) {
+            // si el evento no pertenece al usuario
+            //El 401 indica que no tiene privilegio
+            return res.status(401).json({
+                ok: false,
+                msg: 'No tiene privilegio de editar este evento'
+            });
+        }
+
+        const eventoEliminado = await Evento.findByIdAndDelete( eventoId );
+        if(eventoEliminado){
+            res.status(201).json({
+                ok: true,
+                eventoEliminado
+            })
+        }
+
         res.status(201).json({
             ok:true,
             msg: 'Eliminar evento'
@@ -111,7 +139,7 @@ const eliminarEvento = async(req, res = response) => {
         console.log(error)
         res.status(500).json({
             ok:true,
-            msg: ''
+            msg: 'Hable con el administrador'
         });
     }
 }
