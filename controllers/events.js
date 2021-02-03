@@ -53,12 +53,50 @@ const crearEvento = async(req, res = response) => {
 
 const actualizarEvento = async(req, res = response) => {
     // console.log( req );
-    //const { email, password } = req.body
+    const eventoId = req.params.id;
+    const uid = req.uid;
 
-    res.status(201).json({
-        ok:true,
-        msg: 'Actualizar evento'
-    })
+    try{
+        const evento = await Evento.findById( eventoId );
+
+        if ( !evento ) {
+            //no encontro el id
+            res.status(404).json({
+                ok:true,
+                msg: 'El evento no existe por ese id'
+            })
+        }
+        
+        if ( evento.user.toString() !== uid ) {
+            // si el evento no pertenece al usuario
+            //El 401 indica que no tiene privilegio
+            return res.status(401).json({
+                ok: false,
+                msg: 'No tiene privilegio de editar este evento'
+            });
+        }
+
+            //desestructuro la request del body
+            // Agrego el user por que no viene en la request
+            const nuevoEvento = {
+                ...req.body,
+                user: uid
+            }
+            //( eventoId, nuevoEvento)// si no le pongo el true, no MUESTRA la modificacion
+            const eventoActualizado = await Evento.findByIdAndUpdate( eventoId, nuevoEvento, { new:true });
+            if(eventoActualizado){
+                res.status(201).json({
+                    ok: true,
+                    eventoActualizado
+                })
+            }
+    }catch(error){
+        console.log(error)
+        res.status(500).json({
+            ok:false,
+            msg: 'Hable con el administrador'
+        });
+    }
 }
 
 const eliminarEvento = async(req, res = response) => {
